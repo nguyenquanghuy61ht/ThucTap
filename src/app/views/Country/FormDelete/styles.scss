@@ -1,0 +1,50 @@
+.box-background{
+  display: flex;
+}
+.box-confirm {
+  width: 37%;
+  border-radius: 2%;
+  padding: 20px;
+  background-color: white;
+  margin: auto;
+  z-index: 100;
+  opacity: 1;
+ 
+  .back{
+    padding-right:26px ;
+    padding-left: 26px;
+  }
+  .mes-warrming {
+    font-size: 15px;
+    padding: 30px 30px 40px 30px;
+    text-align: center;
+    font-weight: 500;
+    p{
+      span{
+        color: red;
+      }
+    }
+   
+  }
+}
+.box-background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.btn-cache{
+    padding: 7px 34px;
+    cursor: pointer;
+    border-radius: 7px;
+    margin-left: 50px
+}
+.btn-confirm{
+    cursor: pointer;
+    border-radius: 7px;
+     margin-left: 10px
+}

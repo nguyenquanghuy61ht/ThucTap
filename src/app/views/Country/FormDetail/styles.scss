@@ -1,0 +1,35 @@
+.box-background{
+  display: flex;
+}
+.box-confirm {
+  width: 37%;
+  border-radius: 2%;
+  padding: 20px;
+  background-color: white;
+  margin: auto;
+  z-index: 100;
+  opacity: 1;
+}
+.input{
+    margin-bottom: 14px;
+    width: 250px;
+}
+.box-title{
+    width: 100%;
+    margin-bottom: 20px;
+    h3{
+        width: 40%;
+        margin: auto; 
+        
+    }
+}
+
+.button {
+        width: 100%;
+    .exit{
+        cursor: pointer;
+        margin-left:14%;
+        margin-top: 10px;
+        border-radius: 4px;
+    }
+}
