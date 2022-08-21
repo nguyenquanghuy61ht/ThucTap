@@ -1,41 +1,27 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useFormik } from "formik";
-import { getCountry } from "../CountryService";
-import { editCountry } from "../CountryService";
-import { useSelector, useDispatch } from "react-redux";
-import { EditCountry1 } from "app/redux/actions/CountryAction";
+import { useStore } from "app/stores";
 import * as Yup from "yup";
 import "./styles.scss";
 
-function FormUpdate({ exit, id, loadCountries }) {
-  const dispatch = useDispatch();
-  const dataEdit = useSelector((state) => state.country);
+function FormUpdate({ exit, id, filters }) {
+  const { countryStore } = useStore();
+  const { Get, Update } = countryStore;
   const [country, setData] = useState({ name: "", code: "", description: "" });
-  useEffect(() => {
-    async function dataCountry() {
-      let data = await getCountry(id);
-      setData(data.data);
-    }
-
-    dataCountry();
-  }, [id]);
 
   useEffect(() => {
-    if (dataEdit.length !== 0) {
-      async function edit() {
-        await editCountry(dataEdit[0]);
-       
-      }
-      edit();
-    }
-  }, [dataEdit]);
+    (async () => {
+      const data1 = await Get(id);
+      setData(data1.data);
+    })();
+  }, [Get, id]);
 
   const formik = useFormik({
     initialValues: {
-      name:country.name,
-      code: country.code,
-      description: country.description,
+      name: country.name ,
+      code: country.code ,
+      description: country.description ,
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -52,10 +38,11 @@ function FormUpdate({ exit, id, loadCountries }) {
         .required("Bắt buộc"),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       let data = { ...values };
       data = { ...data, id };
-      dispatch(EditCountry1(data));
+      await Update(data);
+      await countryStore.getData(filters);
       exit(false);
     },
   });

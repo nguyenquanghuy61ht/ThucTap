@@ -2,16 +2,20 @@ import React from "react";
 import { useStore } from "app/stores";
 import { observer } from "mobx-react";
 import "./styles.scss";
-export default observer( function FormDelete({ idDelete, setShowDelete}) {
+export default observer(function FormDelete({
+  idDelete,
+  setShowDelete,
+  filters,
+}) {
   const { countryStore } = useStore();
-  const {Delete} =countryStore
+  const { Delete } = countryStore;
   function hadleBackDelete() {
     setShowDelete(false);
   }
- 
 
   async function handleDelete() {
-    Delete(idDelete);
+    await Delete(idDelete);
+    await countryStore.getData(filters);
     setShowDelete(false);
   }
   return (
@@ -39,6 +43,4 @@ export default observer( function FormDelete({ idDelete, setShowDelete}) {
       </div>
     </div>
   );
-})
-
-
+});

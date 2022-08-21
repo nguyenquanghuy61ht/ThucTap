@@ -1,18 +1,20 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getCountry } from "../CountryService";
+import { useStore } from "app/stores";
+import { observer } from "mobx-react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./styles.scss";
 function FormDetail({ exit, iddetail }) {
+  const { countryStore } = useStore();
+  const { Get } = countryStore;
   const [data, setData] = useState({ name: "", code: "", description: "" });
   useEffect(() => {
-    async function dataCountry() {
-      let data = await getCountry(iddetail);
-      setData(data.data);
-    }
-    dataCountry();
-  }, [iddetail]);
+    (async () => {
+      const data1 = await Get(iddetail);
+      setData(data1.data);
+    })();
+  }, [Get, iddetail]);
 
   return (
     <>
@@ -60,4 +62,4 @@ function FormDetail({ exit, iddetail }) {
   );
 }
 
-export default FormDetail;
+export default observer(FormDetail);

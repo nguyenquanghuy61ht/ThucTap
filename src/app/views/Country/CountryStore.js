@@ -1,5 +1,11 @@
-import { pagingCountries,createCountry,editCountry,deleteCountry,getCountry } from "./CountryService";
-import { makeAutoObservable, runInAction, autorun } from "mobx";
+import {
+  pagingCountries,
+  createCountry,
+  editCountry,
+  deleteCountry,
+  getCountry,
+} from "./CountryService";
+import { makeAutoObservable,  autorun } from "mobx";
 
 class CountryStore {
   countryList = [];
@@ -7,26 +13,17 @@ class CountryStore {
   status = "initial";
   constructor() {
     makeAutoObservable(this);
-      autorun(() =>
-        console.log("run each state change", this.countryList.slice(),this.status.slice())
-        
-      );
-
+    autorun(() => console.log("run each state change", this.status));
   }
   async Create(obj) {
     try {
       let response = await createCountry(obj);
       if (response.status === 201) {
-        runInAction(() => {
-          this.status = "success";
-        });
+        this.status = "success";
       }
     } catch (error) {
-      runInAction(() => {
-        this.status = "error";
-      });
+      this.status = "error";
     }
-
   }
   async Update(obj) {
     try {
@@ -42,16 +39,23 @@ class CountryStore {
       console.error(`error:${error}`);
     }
   }
+  async Get(id) {
+    try {
+      const value = await getCountry(id);
+      return value;
+    } catch (error) {
+      console.error(`error:${error}`);
+    }
+  }
 
   async getData(searchByPage) {
     try {
       let data = await pagingCountries(searchByPage);
-      runInAction(() => {
-        this.countryList = data.data.content;
-        this.totalPage = data.data.totalPages;
-      });
+      this.countryList = data.data.content;
+      this.totalPage = data.data.totalPages;
+      return data;
     } catch (error) {
-      console.error(`error:${error}`);
+      this.status = "error";
     }
   }
 }

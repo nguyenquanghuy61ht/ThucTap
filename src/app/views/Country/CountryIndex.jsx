@@ -122,6 +122,7 @@ export default observer(function CountryIndex() {
   function handelShowEdit(id) {
     setShowEdit(!showEdit);
     SetidEdit(id);
+    
   }
   function handelShowDelete(id) {
     setShowDelete(!showDelete);
@@ -144,11 +145,17 @@ export default observer(function CountryIndex() {
   return (
     <>
       {showDetail && <FormDetail exit={setShowDetail} iddetail={iddetail} />}
-      {showAdd && <FormAdd exit={setShowAdd} />}
+      {showAdd && <FormAdd exit={setShowAdd} filters={filters} />}
       {showDelete && (
-        <FormDelete idDelete={idDelete} setShowDelete={setShowDelete} />
+        <FormDelete
+          idDelete={idDelete}
+          setShowDelete={setShowDelete}
+          filters={filters}
+        />
       )}
-      {showEdit && <FormUpdate exit={setShowEdit} id={idEdit} />}
+      {showEdit && (
+        <FormUpdate exit={setShowEdit} id={idEdit} filters={filters} />
+      )}
       <div
         className="search"
         style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}

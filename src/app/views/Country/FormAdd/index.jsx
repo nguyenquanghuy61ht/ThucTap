@@ -4,10 +4,9 @@ import { useFormik } from "formik";
 import { observer } from "mobx-react";
 import * as Yup from "yup";
 import "./styles.scss";
-export default observer(function FormAdd({ exit }) {
- 
+export default observer(function FormAdd({ exit, filters }) {
   const { countryStore } = useStore();
-  const thisStore = countryStore;
+  const { Create } = countryStore;
 
   /////
   const formik = useFormik({
@@ -30,8 +29,9 @@ export default observer(function FormAdd({ exit }) {
         .max(30, "description quá dài!")
         .required("Bắt buộc"),
     }),
-    onSubmit: (values) => {
-      thisStore.Create(values);
+    onSubmit: async (values) => {
+      await Create(values);
+      await countryStore.getData(filters);
       exit(false);
     },
   });
